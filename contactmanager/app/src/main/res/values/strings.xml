@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ContactManager</string>
+    <string name="contact_name">What is the name of the contact?</string>
+    <string name="create_list">Create</string>
 </resources>
