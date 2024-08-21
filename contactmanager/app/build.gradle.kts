@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.play.services.maps)
+    // implementation(libs.play.services.maps)
     implementation(libs.play.services)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

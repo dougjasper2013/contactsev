@@ -1,7 +1,11 @@
 package com.trios2024evdj.contactmanager
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -45,10 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        getCurrentLLocation()
     }
 
     private fun setupLocationClient() {
@@ -56,4 +57,51 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             LocationServices.getFusedLocationProviderClient(this)
     }
 
+    private fun requestLocationPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            REQUEST_LOCATION
+        )
+    }
+
+    companion object {
+        private const val REQUEST_LOCATION = 1
+        private const val TAG = "MapsActivity"
+    }
+
+    private fun getCurrentLLocation() {
+        if ((ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                   PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) !=
+                    PackageManager.PERMISSION_GRANTED)
+        ) {
+            requestLocationPermissions()
+        } else {
+            fusedLocationClient.lastLocation.addOnCompleteListener {
+                val location = it.result
+                if (location != null)
+                {
+                    val latLng = LatLng(location.latitude, location.longitude)
+
+                    mMap.addMarker(MarkerOptions().position(latLng).title("You are here!"))
+
+                    val update = CameraUpdateFactory.newLatLngZoom(latLng, 16.0f)
+
+                    mMap.moveCamera(update)
+                }
+                else
+                {
+                    Log.e(TAG, "No location found")
+                }
+            }
+        }
+
+    }
 }

@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+
 import com.trios2024evdj.contactmanager.databinding.ActivityMainBinding
 import com.trios2024evdj.contactmanager.ui.main.MainFragment
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,11 +38,22 @@ class MainActivity : AppCompatActivity() {
         val positiveButtonTitle = getString(R.string.create_list)
 
         val builder = AlertDialog.Builder(this)
+
         val listContactEditText = EditText(this)
         listContactEditText.inputType = InputType.TYPE_CLASS_TEXT
 
+        val listEmailEditText = EditText(this)
+        listEmailEditText.inputType = InputType.TYPE_CLASS_TEXT
+
+        val listPhoneEditText = EditText(this)
+        listPhoneEditText.inputType = InputType.TYPE_CLASS_TEXT
+
+        val listAddressEditText = EditText(this)
+        listAddressEditText.inputType = InputType.TYPE_CLASS_TEXT
+
         builder.setTitle(dialogTitle)
-        builder.setView(listContactEditText)
+        //builder.setView(listContactEditText, listEmailEditText, listPhoneEditText,
+        //    listAddressEditText)
 
         builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
             dialog.dismiss()
