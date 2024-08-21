@@ -1,11 +1,12 @@
 package com.trios2024evdj.contactmanager
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.trios2024evdj.contactmanager.databinding.ActivityMainBinding
 import com.trios2024evdj.contactmanager.ui.main.MainFragment
 
@@ -39,6 +40,11 @@ class MainActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.layoutParams =
+            LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.FILL_PARENT)
+
         val listContactEditText = EditText(this)
         listContactEditText.inputType = InputType.TYPE_CLASS_TEXT
 
@@ -51,9 +57,13 @@ class MainActivity : AppCompatActivity() {
         val listAddressEditText = EditText(this)
         listAddressEditText.inputType = InputType.TYPE_CLASS_TEXT
 
+        layout.addView(listContactEditText)
+        layout.addView(listEmailEditText)
+        layout.addView(listPhoneEditText)
+        layout.addView(listAddressEditText)
+
         builder.setTitle(dialogTitle)
-        //builder.setView(listContactEditText, listEmailEditText, listPhoneEditText,
-        //    listAddressEditText)
+        builder.setView(layout)
 
         builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
             dialog.dismiss()
