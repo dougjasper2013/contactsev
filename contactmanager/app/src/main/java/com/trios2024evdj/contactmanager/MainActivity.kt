@@ -7,16 +7,28 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.trios2024evdj.contactmanager.databinding.ActivityMainBinding
+import com.trios2024evdj.contactmanager.models.ContactList
 import com.trios2024evdj.contactmanager.ui.main.MainFragment
+import com.trios2024evdj.contactmanager.ui.main.MainViewModel
+import com.trios2024evdj.contactmanager.ui.main.MainViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(this,
+            MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(this))
+        )
+            .get(MainViewModel::class.java)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
 
@@ -43,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.layoutParams =
-            LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.FILL_PARENT)
+            LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.FILL_PARENT,
+                LinearLayoutCompat.LayoutParams.FILL_PARENT)
 
         val listContactEditText = EditText(this)
         listContactEditText.inputType = InputType.TYPE_CLASS_TEXT
@@ -67,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
             dialog.dismiss()
+            viewModel.saveList(ContactList(listContactEditText.text.toString(),
+                listEmailEditText.text.toString(), listPhoneEditText.text.toString(),
+                listAddressEditText.text.toString()))
         }
 
         builder.create().show()

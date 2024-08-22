@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.trios2024evdj.contactmanager.databinding.ListSelectionViewHolderBinding
+import com.trios2024evdj.contactmanager.models.ContactList
 
-class ListSelectionRecyclerViewAdapter :
+class ListSelectionRecyclerViewAdapter(private val lists : MutableList<ContactList>) :
     RecyclerView.Adapter<ListSelectionViewHolder>()
 {
 
-    val listContacts = arrayOf("Bugs Bunny", "Daffy Duck", "Yosemite Sam")
+    // val listContacts = arrayOf("Bugs Bunny", "Daffy Duck", "Yosemite Sam")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSelectionViewHolder {
         val binding =
@@ -19,11 +20,18 @@ class ListSelectionRecyclerViewAdapter :
     }
 
     override fun getItemCount(): Int {
-        return listContacts.size
+        return lists.size
     }
 
     override fun onBindViewHolder(holder: ListSelectionViewHolder, position: Int) {
-        holder.binding.itemContact.text = listContacts[position]
+        holder.binding.itemContact.text = lists[position].contact
+        holder.binding.itemEmail.text = lists[position].email
+        holder.binding.itemPhone.text = lists[position].phone
+        holder.binding.itemAddress.text = lists[position].address
+    }
+
+    fun listsUpdated() {
+        notifyItemInserted(lists.size-1)
     }
 
 }
