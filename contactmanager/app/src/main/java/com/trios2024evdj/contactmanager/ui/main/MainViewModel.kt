@@ -16,8 +16,11 @@ class MainViewModel(private val sharedPreferences: SharedPreferences) : ViewMode
         val contactLists = ArrayList<ContactList>()
 
         for (contactList in sharedPreferencesContents) {
-            val itemsHashSet = ArrayList(contactList.value as HashSet<ContactList>)
-            val list = ContactList(contactList.key, itemsHashSet)
+            val itemsHashSet = ArrayList(contactList.value as HashSet<String>)
+
+            val list = ContactList( itemsHashSet.toString(),
+                itemsHashSet.toString(), itemsHashSet.toString(),itemsHashSet.toString() )
+
             contactLists.add(list)
         }
         return contactLists
@@ -25,8 +28,14 @@ class MainViewModel(private val sharedPreferences: SharedPreferences) : ViewMode
 
     fun saveList(list: ContactList) {
         sharedPreferences.edit().putStringSet(list.contact,
-            list.email, list.phone, list.address).apply()
+            list.email, list.phone, list.address)?.apply()
         lists.add(list)
         onListAdded.invoke()
     }
 }
+
+private fun SharedPreferences.Editor.putStringSet(contact: String, email: String, phone: String, address: String): SharedPreferences.Editor? {
+    return null
+}
+
+
