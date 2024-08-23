@@ -1,5 +1,6 @@
 package com.trios2024evdj.contactmanager
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
@@ -88,6 +89,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         builder.create().show()
+    }
+
+    private fun showMapsActivity(list: ContactList) {
+        val mapsActivityIntent = Intent(this, MapsActivity::class.java)
+
+        mapsActivityIntent.putExtra(INTENT_LIST_KEY, list)
+
+        startActivity(mapsActivityIntent)
+    }
+
+    companion object {
+        const val INTENT_LIST_KEY = "list"
     }
 
 }
