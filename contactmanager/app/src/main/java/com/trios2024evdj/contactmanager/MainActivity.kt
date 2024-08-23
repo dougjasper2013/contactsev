@@ -18,8 +18,9 @@ import com.trios2024evdj.contactmanager.ui.main.MainViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+
     private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +79,12 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle(dialogTitle)
         builder.setView(layout)
 
-        builder.setPositiveButton(positiveButtonTitle) { dialog, _ ->
-            dialog.dismiss()
-            viewModel.saveList(ContactList(listContactEditText.text.toString(),
+        builder.setPositiveButton(positiveButtonTitle) {
+            dialog, _ -> dialog.dismiss()
+            val contactList = ContactList(listContactEditText.text.toString(),
                 listEmailEditText.text.toString(), listPhoneEditText.text.toString(),
-                listAddressEditText.text.toString()))
+                listAddressEditText.text.toString())
+            viewModel.saveList(contactList)
         }
 
         builder.create().show()

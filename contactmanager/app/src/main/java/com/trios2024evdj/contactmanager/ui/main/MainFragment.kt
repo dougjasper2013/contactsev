@@ -23,9 +23,10 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // TODO: Use the ViewModel
     }
 
@@ -33,6 +34,8 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+
         binding = FragmentMainBinding.inflate(inflater, container,false)
 
         binding.listsRecyclerview.layoutManager =
