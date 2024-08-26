@@ -17,7 +17,8 @@ import com.trios2024evdj.contactmanager.ui.main.MainViewModel
 import com.trios2024evdj.contactmanager.ui.main.MainViewModelFactory
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    MainFragment.MainFragmentInteractionListener {
 
 
     private lateinit var binding: ActivityMainBinding
@@ -37,8 +38,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         if (savedInstanceState == null) {
+            val mainFragment = MainFragment.newInstance(this)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, mainFragment)
                 .commitNow()
         }
 
@@ -101,6 +103,10 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val INTENT_LIST_KEY = "list"
+    }
+
+    override fun listItemTapped(list: ContactList) {
+        showMapsActivity(list)
     }
 
 }
