@@ -1,7 +1,10 @@
 package com.trios2024evdj.contactmanager
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.trios2024evdj.contactmanager.databinding.ActivityMapsBinding
 import com.trios2024evdj.contactmanager.models.ContactList
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -55,7 +59,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        getCurrentLLocation()
+        getContactLocation()
     }
 
     private fun setupLocationClient() {
@@ -79,7 +83,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val TAG = "MapsActivity"
     }
 
-    private fun getCurrentLLocation() {
+    private fun getCurrentLocation() {
         if ((ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
                    PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(
@@ -108,6 +112,49 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
+    }
+
+    private fun getContactLocation() {
+        if ((ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) !=
+                    PackageManager.PERMISSION_GRANTED)
+        ) {
+            requestLocationPermissions()
+        } else {
+
+                val location = getLatLngFromAddress(this, list.address)
+                if (location != null)
+                {
+                    val latLng = LatLng(location.latitude, location.longitude)
+
+                    mMap.addMarker(MarkerOptions().position(latLng).title("${list.contact} is here"))
+
+                    val update = CameraUpdateFactory.newLatLngZoom(latLng, 16.0f)
+
+                    mMap.moveCamera(update)
+                }
+                else
+                {
+                    Log.e(TAG, "No location found")
+                }
+            }
+        }
+
+
+
+    fun getLatLngFromAddress(context: Context, mAddress: String): Address {
+        val coder = Geocoder(context)
+        lateinit var address: List<Address>
+
+        address = coder.getFromLocationName(mAddress, 5)!!
+
+        val location = address[0]
+        return location
 
     }
 }
