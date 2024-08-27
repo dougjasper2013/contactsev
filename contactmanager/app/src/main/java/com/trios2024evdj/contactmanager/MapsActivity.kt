@@ -8,6 +8,7 @@ import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -20,6 +21,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.trios2024evdj.contactmanager.databinding.ActivityMapsBinding
 import com.trios2024evdj.contactmanager.models.ContactList
+
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
+
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -60,6 +65,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         getContactLocation()
+        mMap.setOnPoiClickListener {
+            Toast.makeText(this, it.name, Toast.LENGTH_LONG).show()
+        }
+
     }
 
     private fun setupLocationClient() {
