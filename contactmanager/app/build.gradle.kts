@@ -16,6 +16,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
@@ -46,13 +48,15 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.fragment.ktx)
+    // implementation(libs.androidx.lifecycle.livedata.ktx)
+    // implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    // implementation(libs.androidx.fragment.ktx)
     // implementation(libs.play.services.maps)
-    implementation(libs.play.services)
+    // implementation(libs.play.services)
     implementation(libs.androidx.preference)
     implementation(libs.places)
+    implementation(libs.support.v13)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
